@@ -11,71 +11,59 @@
 
 // => [505, 252.5, 0, 363 ]
 
-int[,] arr = new int[10, 10];
-int sum = 0;
-int divider = 0;
+int n = 0;
+int m = 0;
 
-Random random = new Random();
-for (int i = 0; i < 10; i++)
+do
 {
-    for (int j = 0; j < 10; j++)
+    n = Convert.ToInt32(Console.ReadLine()); 
+    m = Convert.ToInt32(Console.ReadLine());
+}
+while (n * m < 99 | n * m > 200); 
+// создаю условие по которому программа примит только те числа которые позаолят создать массив больше 99 
+// и меньше 200 (не по условию но, чтобы небыл слишком большим) элементов. 
+
+int[,] Matrix = new int[n, m]; 
+Random rnd = new Random();
+
+for (int i = 0; i < n; i++)
+    for (int j = 0; j < m; j++)
     {
-        arr[i, j] = random.Next(100, 999);
-        Console.Write("{0,5:D1}", arr[i, j]);
+
+        Matrix[i, j] = rnd.Next(100, 1000); // Заполняю массив рандомными трехзначными числами. 
     }
-    Console.WriteLine();
+
+for (int i = 0; i < n; i++)
+{
+    for (int j = 0; j < m; j++)
+    {
+        Console.Write($"{Matrix[i, j]}  "); // Вывожу массив на консоль в виде матрицы.
+    }
+    Console.WriteLine(""); 
 }
 
-void rowWiseAvg(int[,] inputArray)
-{
-    int rows = inputArray.GetLength(0);
-    int cols = inputArray.GetLength(1);
+Console.WriteLine($"\n Среднее арифметическое среди элементов, которые являются палиндромами: ");
 
-    for (int i = 0; i < rows; i++)
+
+for (int j = 0; j < m; j++) // первом цикле for перебераю столбци после выполнения второго цикла for.
+{
+    int count = 0;
+    int sum = 0;
+    for (int i = 0; i < n; i++) // Перебераю строки текущего столбца
     {
-        float rowAvg = 0;
-        for (int x = 0; x < cols; x++)
-        {                  
-            rowAvg += inputArray[i,x];
+        string str = Convert.ToString(Matrix[i, j]); // решил вычислить палиндром сравнив 1ю и 3ю цифру числа с помощью string. 
+        if (str[0] == str[2])
+        {
+            sum += Matrix[i, j]; //если число палиндром то сумирую его в переменную 
+            count++; // считаю число палиндромов в столбце
         }
-        rowAvg = rowAvg / cols;
-        Console.Write("Average of row {0} is :{1}", i,rowAvg);         
     }
+
+    if (count != 0){ // проверка на 0
+        Console.Write($"{sum / count}  "); //делю сумму палиндром на их число в столбце.
+    }
+    else{
+        Console.Write($"{0}  "); 
+    }
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// for (int j = 0, i = 0; j < 10; j++)
-// {
-//     int temp = Convert.ToInt32(arr[i, j]);
-//     int b = 0;
-//     while (temp != 0)
-//     {
-//         b = b * 10 + temp % 10; //Переворачиваем число по цифрам
-//         temp /= 10; //Отбрасываем последнюю цифру
-//     }
-//     if (Convert.ToInt32(arr[i, j]) == b)
-//         Console.WriteLine("Элемент массива [{0},{1}] Палиндром", i, j);
-//     else
-//         Console.WriteLine("Элемент массива [{0},{1}] Не палиндром", i, j);
-//         sum += arr[i, j];
-//         divider++;
-// }
-
-// int rsult = sum / divider;
-// Console.WriteLine(rsult);
